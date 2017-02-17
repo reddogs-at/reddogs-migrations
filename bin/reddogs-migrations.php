@@ -1,5 +1,7 @@
 <?php
 
+use Reddogs\Migrations\Tools\ConsoleRunner;
+
 $autoloadFiles = [
     __DIR__ . '/../vendor/autoload.php',
     __DIR__ . '/../../../autoload.php'
@@ -19,3 +21,11 @@ if (!$autoloader) {
     }
     die('vendor/autoload.php could not be found. Did you run `php composer.phar install`?');
 }
+
+$helperSet = new \Symfony\Component\Console\Helper\HelperSet();
+
+$input = null;
+$output = null;
+$consoleRunner = new ConsoleRunner($helperSet);
+$application = $consoleRunner->createApplication();
+$application->run($input, $output);

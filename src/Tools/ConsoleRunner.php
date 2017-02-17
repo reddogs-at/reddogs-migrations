@@ -10,6 +10,7 @@ namespace Reddogs\Migrations\Tools;
 
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Application;
+use Reddogs\Migrations\Command\GenerateCommand;
 
 class ConsoleRunner
 {
@@ -57,6 +58,7 @@ class ConsoleRunner
     {
         $this->application = new Application('Reddogs Migrations', '1.0.0');
         $this->application->setHelperSet($this->getHelperSet());
+        $this->application->add(new GenerateCommand());
         return $this->application;
     }
 }

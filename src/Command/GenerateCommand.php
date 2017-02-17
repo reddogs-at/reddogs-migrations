@@ -8,7 +8,14 @@
 declare(strict_types = 1);
 namespace Reddogs\Migrations\Command;
 
-class GenerateCommand
-{
+use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand as DoctrineGenerateCommand;
+use Symfony\Component\Console\Input\InputArgument;
 
+class GenerateCommand extends DoctrineGenerateCommand
+{
+    protected function configure()
+    {
+        $this->addArgument('module', InputArgument::REQUIRED, 'The module to generate migration for.', null);
+        parent::configure();
+    }
 }

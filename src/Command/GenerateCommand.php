@@ -15,6 +15,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCommand extends DoctrineGenerateCommand
 {
+    use LoadModuleConfigurationTrait;
+
     protected function configure()
     {
         $this->addArgument('module', InputArgument::REQUIRED, 'The module to generate migration for.', null);
@@ -29,10 +31,7 @@ class GenerateCommand extends DoctrineGenerateCommand
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $module = $input->getArgument('module');
-        $moduleConfigHelper = $this->getHelperSet()->get('module-configuration');
-        $configuration = $moduleConfigHelper->getModuleMigrationConfig($module);
-        $this->setMigrationConfiguration($configuration);
+        $this->loadModuleConfiguration($input->getArgument('module'));
         parent::execute($input, $output);
     }
 }

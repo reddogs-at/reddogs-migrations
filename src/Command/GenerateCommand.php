@@ -10,6 +10,8 @@ namespace Reddogs\Migrations\Command;
 
 use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand as DoctrineGenerateCommand;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCommand extends DoctrineGenerateCommand
 {
@@ -17,5 +19,20 @@ class GenerateCommand extends DoctrineGenerateCommand
     {
         $this->addArgument('module', InputArgument::REQUIRED, 'The module to generate migration for.', null);
         parent::configure();
+    }
+
+    /**
+     * Execute generate command
+     *
+     * {@inheritDoc}
+     * @see \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand::execute()
+     */
+    public function execute(InputInterface $input, OutputInterface $output)
+    {
+        $module = $input->getArgument('module');
+        $moduleConfigHelper = $this->getHelperSet()->get('module-configuration');
+        $configuration = $moduleConfigHelper->getModuleMigrationConfig($module);
+        $this->setMigrationConfiguration($configuration);
+        parent::execute($input, $output);
     }
 }

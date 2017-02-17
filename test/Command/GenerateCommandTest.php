@@ -9,8 +9,8 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Helper\HelperSet;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
-use Doctrine\DBAL\Migrations\Tools\Console\Helper\ConfigurationHelper;
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Reddogs\Migrations\Helper\ModuleConfigurationHelper;
 
 class GenerateCommandTest extends TestCase
 {
@@ -18,26 +18,54 @@ class GenerateCommandTest extends TestCase
 
     protected function setUp()
     {
-        $this->generateCommand = new GenerateCommand();
+        $this->generateCommand = $this->getMockBuilder(GenerateCommand::class)
+            ->setMethods(['generateMigration', 'generateVersionNumber'])
+            ->getMock();
     }
 
     public function testExecute()
     {
-        $input = new ArgvInput(['scriptname.php', 'test'], $this->generateCommand->getDefinition());
-        $output = new ConsoleOutput();
+        $input = new ArgvInput(['scriptname.php', 'testmodule'], $this->generateCommand->getDefinition());
+        $output = $this->getMockBuilder(ConsoleOutput::class)
+            ->setMethods(['writeln'])
+            ->getMock();
         $helperSet = new HelperSet();
 
         $connection = $this->getMockBuilder(Connection::class)
             ->disableOriginalConstructor()
             ->getMock();
         $connectionHelper = new ConnectionHelper($connection);
-        $configuration = new Configuration($connection);
-        $configuration->setMigrationsDirectory('migrations');
-        $configurationHelper = new ConfigurationHelper($connection, $configuration);
+
+        $config = [
+            'testmodule' => [
+                'namespace' => 'TestNamespace',
+                'directory' => __DIR__ . '/_files/migrations',
+                'table_name' => 'testtablename'
+            ]
+        ];
+
+        $moduleConfigurationHelper = new ModuleConfigurationHelper($connection, $config);
+
         $helperSet->set($connectionHelper, 'connection');
-        $helperSet->set($configurationHelper, 'configuration');
+        $helperSet->set($moduleConfigurationHelper, $moduleConfigurationHelper->getName());
 
         $this->generateCommand->setHelperSet($helperSet);
+
+        $this->generateCommand->expects($this->once())
+            ->method('generateMigration')
+            ->with($this->isInstanceOf(Configuration::class),
+                   $this->identicalTo($input))
+            ->will($this->returnValue('testMigrationPath'));
+
+        $output->expects($this->at(0))
+            ->method('writeln')
+            ->with($this->equalTo('Loading configuration from the integration code of your framework (setter).'));
+        $output->expects($this->at(1))
+            ->method('writeln')
+            ->with($this->equalTo('Generated new migration class to "<info>testMigrationPath</info>"'));
+        $output->expects($this->exactly(2))
+            ->method('writeln');
+
         $this->generateCommand->execute($input, $output);
     }
 }

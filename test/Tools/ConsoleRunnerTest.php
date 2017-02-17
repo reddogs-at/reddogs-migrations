@@ -6,6 +6,8 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Helper\HelperSet;
 use Reddogs\Migrations\Tools\ConsoleRunner;
 use Symfony\Component\Console\Application;
+use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand;
+use Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand;
 
 class ConsoleRunnerTest extends TestCase
 {
@@ -30,5 +32,7 @@ class ConsoleRunnerTest extends TestCase
         $this->assertSame('1.0.0', $application->getVersion());
         $this->assertTrue($application->areExceptionsCaught());
         $this->assertSame($this->helperSet, $application->getHelperSet());
+
+        $this->assertInstanceOf(GenerateCommand::class, $application->get('migrations:generate'));
     }
 }

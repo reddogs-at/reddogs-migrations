@@ -1,19 +1,30 @@
 {
-    "name": "reddogs-at/reddogs-migrations",
-    "description": "doctrine migrations enhanced with module specific migrations",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Johannes Lichtenwallner",
-            "email": "johannes@lichtenwallner.at"
-        }
-    ],
-    "require": {
-        "php": "^7.0",
-        "doctrine/migrations": "^1.5"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^6.0"
-    }
+	"name": "reddogs-at/reddogs-migrations",
+	"description": "doctrine migrations enhanced with module specific migrations",
+	"type": "library",
+	"license": "MIT",
+	"authors": [{
+		"name": "Johannes Lichtenwallner",
+		"email": "johannes@lichtenwallner.at"
+	}],
+	"require": {
+		"php": "^7.0",
+		"doctrine/migrations": "^1.5"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^6.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Reddogs\\Migrations\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"ReddogsTest\\Migrations\\": "test/"
+		}
+	},
+	"bin": [
+		"bin/reddogs-migrations"
+	]
 }

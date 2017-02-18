@@ -8,7 +8,18 @@
 declare(strict_types = 1);
 namespace Reddogs\Migrations\Command;
 
-class MigrateCommand
-{
+use Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand as DoctrineMigrateCommand;
+use Symfony\Component\Console\Command\Command;
 
+class MigrateCommand extends AbstractCommand
+{
+    /**
+     * Get decorated command name
+     * {@inheritDoc}
+     * @see \Reddogs\Migrations\Command\AbstractCommand::getDecoratedCommandName()
+     */
+    public function getDecoratedCommandName() : string
+    {
+        return DoctrineMigrateCommand::class;
+    }
 }

@@ -8,7 +8,7 @@ cache:
   - vendor
   
 before_install:
-  - composesr require satooshi/php-coveralls
+  - composer require satooshi/php-coveralls
 install:
   - travis_retry composer install --no-interaction --prefer-source
 script:

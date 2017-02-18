@@ -3,15 +3,15 @@
 namespace ReddogsTest\Migrations\Command;
 
 use PHPUnit\Framework\TestCase;
-use Reddogs\Migrations\Command\GenerateCommand;
+use Reddogs\Migrations\Command\LatestCommand;
 
-class GenerateCommandTest extends TestCase
+class LatestCommandTest extends TestCase
 {
     private $command;
 
     protected function setUp()
     {
-        $this->command = $this->getMockBuilder(GenerateCommand::class)
+        $this->command = $this->getMockBuilder(LatestCommand::class)
             ->setMethods(['configure'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -20,7 +20,7 @@ class GenerateCommandTest extends TestCase
     public function testGetDecoratedCommandName()
     {
         $this->assertSame(
-            'Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand',
+            'Doctrine\DBAL\Migrations\Tools\Console\Command\LatestCommand',
             $this->command->getDecoratedCommandName()
         );
     }

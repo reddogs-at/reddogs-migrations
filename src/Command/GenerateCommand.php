@@ -1,37 +1,25 @@
 <?php
 /**
  * Reddogs (https://github.com/reddogs-at)
- *
- * @see https://github.com/reddogs-at/reddogs-migrations for the canonical source repository
- * @license https://github.com/reddogs-at/reddogs-migrations/blob/master/LICENSE MIT License
- */
+*
+* @see https://github.com/reddogs-at/reddogs-migrations for the canonical source repository
+* @license https://github.com/reddogs-at/reddogs-migrations/blob/master/LICENSE MIT License
+*/
 declare(strict_types = 1);
 namespace Reddogs\Migrations\Command;
 
 use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand as DoctrineGenerateCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 
-class GenerateCommand extends DoctrineGenerateCommand
+class GenerateCommand extends AbstractCommand
 {
-    use LoadModuleConfigurationTrait;
-
-    protected function configure()
-    {
-        $this->addArgument('module', InputArgument::REQUIRED, 'The module to generate migration for.', null);
-        parent::configure();
-    }
-
     /**
-     * Execute generate command
-     *
+     * Get decorated command name
      * {@inheritDoc}
-     * @see \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand::execute()
+     * @see \Reddogs\Migrations\Command\AbstractCommand::getDecoratedCommandName()
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function getDecoratedCommandName() : string
     {
-        $this->loadModuleConfiguration($input->getArgument('module'));
-        parent::execute($input, $output);
+        return DoctrineGenerateCommand::class;
     }
 }

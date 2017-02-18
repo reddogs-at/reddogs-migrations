@@ -54,6 +54,12 @@ if (file_exists($configFile)) {
 
 $helperSet = ($helperSet) ?: new \Symfony\Component\Console\Helper\HelperSet();
 
+if(class_exists('\Symfony\Component\Console\Helper\QuestionHelper')) {
+    $helperSet->set(new \Symfony\Component\Console\Helper\QuestionHelper(), 'question');
+} else {
+    $helperSet->set(new \Symfony\Component\Console\Helper\DialogHelper(), 'dialog');
+}
+
 $input = null;
 $output = null;
 $consoleRunner = new ConsoleRunner($helperSet);

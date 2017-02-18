@@ -86,6 +86,7 @@ abstract class AbstractCommand extends Command
     {
         $decoratedCommand = $this->getDecoratedCommand();
         $definition = $decoratedCommand->getDefinition();
+        $this->setName($decoratedCommand->getName());
         $this->setDescription($decoratedCommand->getDescription());
         $this->addArgument('module', InputArgument::REQUIRED, 'The module to generate migration for.', null);
         foreach ($definition->getArguments() as $argument)

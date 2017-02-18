@@ -41,10 +41,12 @@ class AbstractCommandTest extends TestCase
         $inputOption = new InputOption('testOption');
         $definition->addOption($inputOption);
 
+        $this->decoratedCommand->setName('testName');
         $this->decoratedCommand->setDescription('testDescription');
         $this->decoratedCommand->setDefinition($definition);
 
         $this->command->configureDecorator();
+        $this->assertSame('testName', $this->command->getName());
         $this->assertSame('testDescription', $this->command->getDescription());
 
 

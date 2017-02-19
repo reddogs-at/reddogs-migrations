@@ -14,6 +14,7 @@ use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Application;
 
 abstract class AbstractCommand extends Command
 {
@@ -96,6 +97,12 @@ abstract class AbstractCommand extends Command
         foreach ($definition->getOptions() as $option) {
             $this->getDefinition()->addOption($option);
         }
+    }
+
+    public function setApplication(Application $application = null)
+    {
+        $this->getDecoratedCommand()->setApplication($application);
+        parent::setApplication($application);
     }
 
     /**

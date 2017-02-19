@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Reddogs\Migrations\Helper\ModuleConfigurationHelper;
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand;
+use Symfony\Component\Console\Application;
 
 class AbstractCommandTest extends TestCase
 {
@@ -54,6 +55,14 @@ class AbstractCommandTest extends TestCase
         $this->assertSame(2, $decoratorDefinition->getArgumentCount());
         $this->assertSame(['module', 'testArgument'], array_keys($decoratorDefinition->getArguments()));
         $this->assertCount(1, $decoratorDefinition->getOptions());
+    }
+
+    public function testSetApplication()
+    {
+        $application = new Application();
+        $this->command->setApplication($application);
+        $this->assertSame($application, $this->command->getApplication());
+        $this->assertSame($application, $this->command->getDecoratedCommand()->getApplication());
     }
 
     public function testGetDecoratedCommand()

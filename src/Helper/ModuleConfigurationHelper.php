@@ -81,4 +81,14 @@ class ModuleConfigurationHelper extends Helper
         $migrationConfig->setMigrationsTableName($moduleConfig['table_name']);
         return $migrationConfig;
     }
+
+    /**
+     * Get module keys
+     *
+     * @return array
+     */
+    public function getModuleKeys() : array
+    {
+        return array_keys($this->getConfig());
+    }
 }

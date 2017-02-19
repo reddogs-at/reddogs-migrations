@@ -13,6 +13,7 @@ use Reddogs\Migrations\Command\LatestCommand;
 use Reddogs\Migrations\Command\StatusCommand;
 use Reddogs\Migrations\Command\UpToDateCommand;
 use Reddogs\Migrations\Command\VersionCommand;
+use Reddogs\Migrations\Command\MigrateAllCommand;
 
 class ConsoleRunnerTest extends TestCase
 {
@@ -45,5 +46,6 @@ class ConsoleRunnerTest extends TestCase
         $this->assertInstanceOf(StatusCommand::class, $application->get('migrations:status'));
         $this->assertInstanceOf(UpToDateCommand::class, $application->get('migrations:up-to-date'));
         $this->assertInstanceOf(VersionCommand::class, $application->get('migrations:version'));
+        $this->assertInstanceOf(MigrateAllCommand::class, $application->get('migrations:migrate-all'));
     }
 }

@@ -17,6 +17,7 @@ use Reddogs\Migrations\Command\LatestCommand;
 use Reddogs\Migrations\Command\StatusCommand;
 use Reddogs\Migrations\Command\UpToDateCommand;
 use Reddogs\Migrations\Command\VersionCommand;
+use Reddogs\Migrations\Command\MigrateAllCommand;
 
 class ConsoleRunner
 {
@@ -71,6 +72,7 @@ class ConsoleRunner
         $this->application->add(new StatusCommand());
         $this->application->add(new UpToDateCommand());
         $this->application->add(new VersionCommand());
+        $this->application->add(new MigrateAllCommand());
         return $this->application;
     }
 }

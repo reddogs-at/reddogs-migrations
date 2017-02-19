@@ -53,6 +53,7 @@ class MigrateAllCommand extends AbstractCommand
             $decoratedCommand->setMigrationConfiguration(
                 $moduleConfigurationHelper->getModuleMigrationConfig($moduleKey)
             );
+            $decoratedCommand->mergeApplicationDefinition();
             $decoratedCommand->run($input, $output);
         }
     }

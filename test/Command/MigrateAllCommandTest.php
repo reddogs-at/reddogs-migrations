@@ -52,7 +52,7 @@ class MigrateAllCommandTest extends TestCase
         $this->command->setHelperSet($helperSet);
 
         $decoratedCommand = $this->getMockBuilder(MigrateCommand::class)
-            ->setMethods(['run', 'setMigrationConfiguration'])
+            ->setMethods(['run', 'setMigrationConfiguration', 'mergeApplicationDefinition'])
             ->getMock();
         $this->command->setDecoratedCommand($decoratedCommand);
 
@@ -77,17 +77,20 @@ class MigrateAllCommandTest extends TestCase
             ->method('setMigrationConfiguration')
             ->with($this->equalTo($migrationConfig1));
 
-        $decoratedCommand->expects($this->at(2))
+        $decoratedCommand->expects($this->at(3))
             ->method('setMigrationConfiguration')
             ->with($this->equalTo($migrationConfig2));
+
+        $decoratedCommand->expects($this->at(2))
+            ->method('mergeApplicationDefinition');
 
         $input = new ArgvInput(['scriptname.php'], $this->command->getDefinition());
         $output = new ConsoleOutput();
 
         $decoratedCommand->expects($this->exactly(2))
             ->method('run')
-            ->with($this->equalTo($input),
-                   $this->equalTo($output));
+            ->with($this->identicalTo($input),
+                   $this->identicalTo($output));
 
         $this->command->execute($input, $output);
     }

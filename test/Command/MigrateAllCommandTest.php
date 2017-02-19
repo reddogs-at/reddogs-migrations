@@ -52,7 +52,7 @@ class MigrateAllCommandTest extends TestCase
         $this->command->setHelperSet($helperSet);
 
         $decoratedCommand = $this->getMockBuilder(MigrateCommand::class)
-            ->setMethods(['execute', 'setMigrationConfiguration'])
+            ->setMethods(['run', 'setMigrationConfiguration'])
             ->getMock();
         $this->command->setDecoratedCommand($decoratedCommand);
 
@@ -85,7 +85,7 @@ class MigrateAllCommandTest extends TestCase
         $output = new ConsoleOutput();
 
         $decoratedCommand->expects($this->exactly(2))
-            ->method('execute')
+            ->method('run')
             ->with($this->equalTo($input),
                    $this->equalTo($output));
 

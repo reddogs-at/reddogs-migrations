@@ -10,14 +10,7 @@ namespace Reddogs\Migrations\Tools;
 
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Application;
-use Reddogs\Migrations\Command\GenerateCommand;
-use Reddogs\Migrations\Command\MigrateCommand;
-use Reddogs\Migrations\Command\ExecuteCommand;
-use Reddogs\Migrations\Command\LatestCommand;
-use Reddogs\Migrations\Command\StatusCommand;
-use Reddogs\Migrations\Command\UpToDateCommand;
-use Reddogs\Migrations\Command\VersionCommand;
-use Reddogs\Migrations\Command\MigrateAllCommand;
+use Reddogs\Migrations\Tools\Console\Command\MigrateCommand;
 
 class ConsoleRunner
 {
@@ -65,14 +58,7 @@ class ConsoleRunner
     {
         $this->application = new Application('Reddogs Migrations', '1.0.0');
         $this->application->setHelperSet($this->getHelperSet());
-        $this->application->add(new ExecuteCommand());
-        $this->application->add(new GenerateCommand());
-        $this->application->add(new LatestCommand());
         $this->application->add(new MigrateCommand());
-        $this->application->add(new StatusCommand());
-        $this->application->add(new UpToDateCommand());
-        $this->application->add(new VersionCommand());
-        $this->application->add(new MigrateAllCommand());
         return $this->application;
     }
 }

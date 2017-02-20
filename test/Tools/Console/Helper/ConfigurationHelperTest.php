@@ -49,4 +49,9 @@ class ConfigurationHelperTest extends TestCase
         $this->assertSame('testdirectory', $migrationConfig->getMigrationsDirectory());
         $this->assertSame('testtablename', $migrationConfig->getMigrationsTableName());
     }
+
+    public function testGetModuleKeys()
+    {
+        $this->assertSame(['testModule'], $this->helper->getModuleKeys());
+    }
 }

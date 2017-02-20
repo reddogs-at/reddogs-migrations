@@ -73,4 +73,14 @@ class ConfigurationHelper extends \Doctrine\DBAL\Migrations\Tools\Console\Helper
         }
         return parent::getMigrationConfig($input, $outputWriter);
     }
+
+    /**
+     * Get module keys
+     *
+     * @return array
+     */
+    public function getModuleKeys() : array
+    {
+        return array_keys($this->getModulesConfig());
+    }
 }

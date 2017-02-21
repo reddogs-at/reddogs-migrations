@@ -17,6 +17,7 @@ use Reddogs\Migrations\Tools\Console\Command\LatestCommand;
 use Reddogs\Migrations\Tools\Console\Command\StatusCommand;
 use Reddogs\Migrations\Tools\Console\Command\UpToDateCommand;
 use Reddogs\Migrations\Tools\Console\Command\VersionCommand;
+use Reddogs\Migrations\Tools\Console\Command\MigrateAllCommand;
 
 class ConsoleRunner
 {
@@ -68,6 +69,7 @@ class ConsoleRunner
         $this->application->add(new GenerateCommand());
         $this->application->add(new LatestCommand());
         $this->application->add(new MigrateCommand());
+        $this->application->add(new MigrateAllCommand(null, new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand()));
         $this->application->add(new StatusCommand());
         $this->application->add(new UpToDateCommand());
         $this->application->add(new VersionCommand());

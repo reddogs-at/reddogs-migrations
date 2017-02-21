@@ -134,7 +134,7 @@ class MigrateAllCommand extends AbstractCommand
             $decoratedCommand->setMigrationConfiguration($migrationConfig);
             $helperSet = new HelperSet([
                 'connection' => $decoratedCommand->getHelper('connection'),
-                'connection' => $decoratedCommand->getHelper('question')
+                'question' => $decoratedCommand->getHelper('question')
             ]);
             $decoratedCommand->setHelperSet($helperSet);
             $decoratedCommand->run($input, $output);

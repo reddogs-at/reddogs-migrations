@@ -11,6 +11,11 @@ use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 use Reddogs\Migrations\Tools\Console\Helper\ConfigurationHelper;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputArgument;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
 
 class MigrateAllCommandTest extends TestCase
 {
@@ -90,8 +95,15 @@ class MigrateAllCommandTest extends TestCase
             ->setMethods(['getMigrationConfig', 'getModuleKeys'])
             ->getMock();
 
+        $connection = $this->getMockBuilder(Connection::class)->disableOriginalConstructor()->getMock();
+        $connectionHelper = new ConnectionHelper($connection);
+
+        $questionHelper = new QuestionHelper();
+
         $helperSet = new HelperSet([
             $configurationHelper->getName() => $configurationHelper,
+            $connectionHelper->getName() => $connectionHelper,
+            $questionHelper->getName() => $questionHelper
         ]);
         $this->command->setHelperSet($helperSet);
 
@@ -102,14 +114,17 @@ class MigrateAllCommandTest extends TestCase
             ->method('getModuleKeys')
             ->will($this->returnValue(['testmodule1', 'testmodule2']));
 
+        $inputDefinition = new InputDefinition();
+        $inputDefinition->addArgument(new InputArgument('module'));
+
         $configurationHelper->expects($this->at(1))
             ->method('getMigrationConfig')
-            ->with($this->equalTo(new ArrayInput(['module' => 'testmodule1'])))
+            ->with($this->equalTo(new ArrayInput(['module' => 'testmodule1'], $inputDefinition)))
             ->will($this->returnValue($configuration1));
 
         $configurationHelper->expects($this->at(2))
             ->method('getMigrationConfig')
-            ->with($this->equalTo(new ArrayInput(['module' => 'testmodule2'])))
+            ->with($this->equalTo(new ArrayInput(['module' => 'testmodule2'], $inputDefinition)))
             ->will($this->returnValue($configuration2));
 
         $this->decoratedCommand->expects($this->at(0))

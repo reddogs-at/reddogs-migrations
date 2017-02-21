@@ -18,6 +18,9 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArrayInput;
 use Doctrine\DBAL\Migrations\OutputWriter;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputArgument;
 
 class MigrateAllCommand extends AbstractCommand
 {
@@ -121,9 +124,19 @@ class MigrateAllCommand extends AbstractCommand
         $decoratedCommand = $this->getDecoratedCommand();
         foreach ($configurationHelper->getModuleKeys() as $moduleKey)
         {
-            $argumentInput = new ArrayInput(['module' => $moduleKey]);
-            $migrationConfig = $configurationHelper->getMigrationConfig($argumentInput, new OutputWriter());
+            $inputDefinition = new InputDefinition();
+            $inputDefinition->addArgument(new InputArgument('module'));
+            $argumentInput = new ArrayInput(['module' => $moduleKey], $inputDefinition);
+            $outputWriter = new OutputWriter(function($message) use ($output) {
+                return $output->writeln($message);
+            });
+            $migrationConfig = $configurationHelper->getMigrationConfig($argumentInput, $outputWriter);
             $decoratedCommand->setMigrationConfiguration($migrationConfig);
+            $helperSet = new HelperSet([
+                'connection' => $decoratedCommand->getHelper('connection'),
+                'connection' => $decoratedCommand->getHelper('question')
+            ]);
+            $decoratedCommand->setHelperSet($helperSet);
             $decoratedCommand->run($input, $output);
         }
     }

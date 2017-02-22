@@ -33,6 +33,7 @@ foreach ($directories as $directory) {
     }
 }
 
+$helperSet = null;
 if (file_exists($configFile)) {
     if ( ! is_readable($configFile)) {
         trigger_error(

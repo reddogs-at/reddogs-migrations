@@ -4,3 +4,4 @@
 /vendor/
 /.settings/
 /phpunit.xml
+/composer.lock

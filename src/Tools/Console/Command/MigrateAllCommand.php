@@ -11,14 +11,13 @@ namespace Reddogs\Migrations\Tools\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand;
+use Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand as DoctrineMigrateCommand;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand;
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArrayInput;
 use Doctrine\DBAL\Migrations\OutputWriter;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -27,16 +26,16 @@ class MigrateAllCommand extends AbstractCommand
     /**
      * Decorated command
      *
-     * @var MigrateCommand
+     * @var DoctrineMigrateCommand
      */
     private $decoratedCommand;
 
     /**
      * Constructor
      * @param string $name
-     * @param MigrateCommand $decoratedCommand
+     * @param DoctrineMigrateCommand $decoratedCommand
      */
-    public function __construct($name = null, MigrateCommand $decoratedCommand)
+    public function __construct($name = null, DoctrineMigrateCommand $decoratedCommand)
     {
         $this->decoratedCommand = $decoratedCommand;
         parent::__construct($name);
@@ -45,9 +44,9 @@ class MigrateAllCommand extends AbstractCommand
     /**
      * Get decorated command
      *
-     * @return MigrateCommand
+     * @return DoctrineMigrateCommand
      */
-    public function getDecoratedCommand() : MigrateCommand
+    public function getDecoratedCommand() : DoctrineMigrateCommand
     {
         return $this->decoratedCommand;
     }
